@@ -25,17 +25,19 @@ export default async function Home() {
       <h1 className="text-4xl font-bold">
         Hello {displayName}
       </h1>
-      <div className="flex gap-4">
-        <Button asChild size="lg">
-          <Link href="/profile">Profile</Link>
-        </Button>
-        <Button asChild size="lg" variant="outline">
-          <Link href="/deploy">Deploy</Link>
-        </Button>
-        <Button asChild size="lg" variant="outline">
-          <Link href="/auth/update-password">Update Password</Link>
-        </Button>
-      </div>
+      {user && (
+        <div className="flex gap-4">
+          <Button asChild size="lg">
+            <Link href="/profile">Profile</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/auth/update-password">Update Password</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/deploy">Deploy</Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
