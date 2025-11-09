@@ -13,23 +13,25 @@ alter table public.profiles enable row level security;
 create policy "Users can view own profile"
   on public.profiles
   for select
-  using (auth.uid() = id);
+  using ((select auth.uid()) = id);
 
 -- Create policy to allow users to insert their own profile
 create policy "Users can insert own profile"
   on public.profiles
   for insert
-  with check (auth.uid() = id);
+  with check ((select auth.uid()) = id);
 
 -- Create policy to allow users to update their own profile
 create policy "Users can update own profile"
   on public.profiles
   for update
-  using (auth.uid() = id);
+  using ((select auth.uid()) = id);
 
 -- Create function to automatically create profile on user signup
 create or replace function public.handle_new_user()
-returns trigger as $$
+returns trigger
+set search_path = ''
+as $$
 begin
   insert into public.profiles (id, name, phone)
   values (new.id, new.raw_user_meta_data->>'name', new.raw_user_meta_data->>'phone');
